@@ -114,11 +114,18 @@ goalcast = "goalcast.cli:main"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.uv]
-dev-dependencies = [
+[tool.hatch.build.targets.wheel]
+packages = ["src/goalcast"]
+
+[dependency-groups]
+dev = [
     "pytest>=8.0.0",
     "ruff>=0.2.0",
     "mypy>=1.8.0",
+    "pytest-cov>=7.0.0",
+    "pytest-asyncio>=1.2.0",
+    "pytest-mock>=3.15.1",
+    "hypothesis>=6.140.2",
 ]
 
 [tool.ruff]
