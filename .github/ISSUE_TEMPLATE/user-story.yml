@@ -1,0 +1,104 @@
+name: 📝 User Story
+description: Create a new User Story for a specific feature or capability
+title: "[STORY] "
+labels: ["user-story", "needs-refinement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## User Story Template
+        Define a specific, testable user requirement with clear acceptance criteria.
+        
+  - type: input
+    id: parent-epic
+    attributes:
+      label: Parent Epic
+      description: Which epic does this story belong to?
+      placeholder: "#123"
+    validations:
+      required: false
+      
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: |
+        **As a** [user type]
+        **I want** [capability]
+        **So that** [benefit]
+      placeholder: |
+        As a data scientist
+        I want to ingest xG data from Understat.com
+        So that I can enhance model accuracy with expected goals
+    validations:
+      required: true
+      
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria (Gherkin)
+      description: Define testable acceptance criteria using Given/When/Then format
+      placeholder: |
+        ```gherkin
+        Scenario: Successfully ingest xG data
+          Given Understat.com API is available
+          When the xG ingestion pipeline runs
+          Then xG data is downloaded and stored in CSV format
+          And data quality checks pass (no missing values, valid xG range 0-1)
+          And audit trail captures source URL, timestamp, and data hash
+        ```
+    validations:
+      required: true
+      
+  - type: textarea
+    id: technical-approach
+    attributes:
+      label: Technical Approach
+      description: High-level implementation approach or design notes
+      placeholder: |
+        - Use requests library with rate limiting
+        - Store raw HTML/JSON for reproducibility
+        - Parse with BeautifulSoup/lxml
+        - Validate with pydantic models
+    validations:
+      required: false
+      
+  - type: textarea
+    id: testing-strategy
+    attributes:
+      label: Testing Strategy
+      description: How will this be tested?
+      placeholder: |
+        - Unit tests: data parsing logic
+        - Integration tests: end-to-end ingestion
+        - Mock API responses for reproducibility
+    validations:
+      required: false
+      
+  - type: dropdown
+    id: story-points
+    attributes:
+      label: Story Points
+      description: Fibonacci scale for complexity estimation
+      options:
+        - "1 - Trivial"
+        - "2 - Simple"
+        - "3 - Moderate"
+        - "5 - Complex"
+        - "8 - Very Complex"
+        - "13 - Needs Breaking Down"
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Story priority within the epic
+      options:
+        - P0 - Critical
+        - P1 - High
+        - P2 - Medium
+        - P3 - Low
+    validations:
+      required: true

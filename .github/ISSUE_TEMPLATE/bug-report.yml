@@ -1,0 +1,87 @@
+name: 🐛 Bug Report
+description: Report a bug or unexpected behavior
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report Template
+        
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Clear and concise description of the bug
+      placeholder: "Model produces NaN probabilities when..."
+    validations:
+      required: true
+      
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the behavior
+      placeholder: |
+        1. Run `uv run python -m goalcast.models.poisson`
+        2. Load fixtures from `data/fixtures.csv`
+        3. Observe NaN values in output
+    validations:
+      required: true
+      
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen?
+      placeholder: "Model should produce probabilities between 0 and 1"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happens?
+      placeholder: "Model outputs NaN for all probabilities"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: System information
+      placeholder: |
+        - OS: Windows 11
+        - Python: 3.13.1
+        - uv version: 0.4.0
+        - Container: Docker 24.0.6
+    validations:
+      required: true
+      
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs & Stack Trace
+      description: Relevant error messages or stack traces
+      placeholder: |
+        ```
+        Traceback (most recent call last):
+          ...
+        ```
+    validations:
+      required: false
+      
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is this bug?
+      options:
+        - Critical - System down/Data loss
+        - High - Major functionality broken
+        - Medium - Feature partially broken
+        - Low - Minor issue/Cosmetic
+    validations:
+      required: true

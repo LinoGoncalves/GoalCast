@@ -1,0 +1,100 @@
+name: 🎯 Epic
+description: Create a new Epic for a major project initiative
+title: "[EPIC] "
+labels: ["epic", "planning"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Epic Template
+        Define a major project initiative with clear business value and success criteria.
+        
+  - type: input
+    id: epic-name
+    attributes:
+      label: Epic Name
+      description: Short, descriptive name for this epic
+      placeholder: "e.g., Data Foundation & Ingestion Pipeline"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: business-value
+    attributes:
+      label: Business Value
+      description: |
+        **As a** [user type]
+        **I need** [capability]
+        **So that** [business benefit]
+      placeholder: |
+        As a prediction engine user
+        I need reliable, versioned EPL data from multiple free sources
+        So that my statistical models have accurate, reproducible inputs
+    validations:
+      required: true
+      
+  - type: textarea
+    id: success-metrics
+    attributes:
+      label: Success Metrics
+      description: How will we measure success? (KPIs, acceptance criteria)
+      placeholder: |
+        - Metric 1: Target value
+        - Metric 2: Target value
+    validations:
+      required: true
+      
+  - type: textarea
+    id: user-stories
+    attributes:
+      label: User Stories
+      description: List of user stories that comprise this epic (will be created as sub-issues)
+      placeholder: |
+        1. [Story 1 title]
+        2. [Story 2 title]
+        3. [Story 3 title]
+    validations:
+      required: false
+      
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: What other epics or issues must be completed first?
+      placeholder: "Depends on #123, #456"
+    validations:
+      required: false
+      
+  - type: textarea
+    id: technical-notes
+    attributes:
+      label: Technical Notes
+      description: Architecture decisions, tech stack, or implementation considerations
+    validations:
+      required: false
+      
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgent is this epic?
+      options:
+        - P0 - Critical
+        - P1 - High
+        - P2 - Medium
+        - P3 - Low
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Complexity Estimate
+      description: Overall complexity of this epic
+      options:
+        - XL - Very Complex (>4 weeks)
+        - L - Complex (2-4 weeks)
+        - M - Moderate (1-2 weeks)
+        - S - Simple (<1 week)
+    validations:
+      required: true

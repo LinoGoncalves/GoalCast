@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/your-username/GoalCast/wiki
+    about: Check the project wiki for guides and documentation
+  - name: 💬 Discussions
+    url: https://github.com/your-username/GoalCast/discussions
+    about: Ask questions and discuss ideas with the community
