@@ -55,7 +55,7 @@ Build a Python-based prediction engine that:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/GoalCast.git
+git clone https://github.com/LinoGoncalves/GoalCast.git
 cd GoalCast
 
 # Install dependencies with uv
@@ -134,13 +134,13 @@ GoalCast/
 
 ## 🎯 Project Epics
 
-1. **[EPIC 1: Data Foundation & Ingestion Pipeline](../../issues/1)**
-2. **[EPIC 2: Core Statistical Modeling Engine](../../issues/2)**
-3. **[EPIC 3: Monte Carlo Simulation & Rival Analysis](../../issues/3)**
-4. **[EPIC 4: In-Play Markov Chain Model](../../issues/4)**
-5. **[EPIC 5: LLM Interpretation & Playbook Generation](../../issues/5)**
-6. **[EPIC 6: Microservices Architecture & Deployment](../../issues/6)**
-7. **[EPIC 7: Quality Assurance & Testing Framework](../../issues/7)**
+1. **[EPIC 1: Data Foundation & Ingestion Pipeline](https://github.com/LinoGoncalves/GoalCast/issues/1)**
+2. **[EPIC 2: Core Statistical Modeling Engine](https://github.com/LinoGoncalves/GoalCast/issues/2)**
+3. **[EPIC 3: Monte Carlo Simulation & Rival Analysis](https://github.com/LinoGoncalves/GoalCast/issues/3)**
+4. **[EPIC 4: In-Play Markov Chain Model](https://github.com/LinoGoncalves/GoalCast/issues/4)**
+5. **[EPIC 5: LLM Interpretation & Playbook Generation](https://github.com/LinoGoncalves/GoalCast/issues/5)**
+6. **[EPIC 6: Microservices Architecture & Deployment](https://github.com/LinoGoncalves/GoalCast/issues/6)**
+7. **[EPIC 7: Quality Assurance & Testing Framework](https://github.com/LinoGoncalves/GoalCast/issues/7)**
 
 ## 📈 Success Metrics
 

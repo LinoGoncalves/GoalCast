@@ -102,10 +102,10 @@ ml = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-username/GoalCast"
-Documentation = "https://github.com/your-username/GoalCast/wiki"
-Repository = "https://github.com/your-username/GoalCast"
-Issues = "https://github.com/your-username/GoalCast/issues"
+Homepage = "https://github.com/LinoGoncalves/GoalCast"
+Documentation = "https://github.com/LinoGoncalves/GoalCast/wiki"
+Repository = "https://github.com/LinoGoncalves/GoalCast"
+Issues = "https://github.com/LinoGoncalves/GoalCast/issues"
 
 [project.scripts]
 goalcast = "goalcast.cli:main"
