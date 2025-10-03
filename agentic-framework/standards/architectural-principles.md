@@ -26,7 +26,7 @@ class UserService:
     """Handles business logic for users."""
     def __init__(self, repository: UserRepository):
         self._repository = repository
-    
+
     def create_user(self, user_data: Dict[str, str]) -> User:
         # Business logic here
         user = User(**user_data)
@@ -51,7 +51,7 @@ class UserController:
 # Good: Dependencies injected
 class OrderService:
     def __init__(
-        self, 
+        self,
         payment_service: PaymentService,
         notification_service: NotificationService,
         logger: logging.Logger
@@ -81,7 +81,7 @@ class Settings(BaseSettings):
     api_key: str
     debug: bool = False
     log_level: str = "INFO"
-    
+
     class Config:
         env_file = ".env"
 
@@ -100,25 +100,25 @@ from typing import List, Optional
 
 class UserRepository(ABC):
     """Abstract repository for user data access."""
-    
+
     @abstractmethod
     def save(self, user: User) -> User: ...
-    
+
     @abstractmethod
     def find_by_id(self, user_id: int) -> Optional[User]: ...
-    
+
     @abstractmethod
     def find_all(self) -> List[User]: ...
-    
+
     @abstractmethod
     def delete(self, user_id: int) -> bool: ...
 
 class PostgreSQLUserRepository(UserRepository):
     """PostgreSQL implementation of user repository."""
-    
+
     def __init__(self, connection: psycopg2.Connection):
         self._connection = connection
-    
+
     def save(self, user: User) -> User:
         # PostgreSQL-specific implementation
         pass
@@ -131,9 +131,9 @@ class PostgreSQLUserRepository(UserRepository):
 ```python
 class UserService:
     """Service layer for user business logic."""
-    
+
     def __init__(
-        self, 
+        self,
         user_repo: UserRepository,
         email_service: EmailService,
         audit_service: AuditService
@@ -141,21 +141,21 @@ class UserService:
         self._user_repo = user_repo
         self._email_service = email_service
         self._audit_service = audit_service
-    
+
     def register_user(self, user_data: Dict[str, str]) -> User:
         """Register a new user with business logic."""
         # Validation
         if self._user_repo.find_by_email(user_data["email"]):
             raise ValueError("Email already exists")
-        
+
         # Create user
         user = User(**user_data)
         user = self._user_repo.save(user)
-        
+
         # Side effects
         self._email_service.send_welcome_email(user.email)
         self._audit_service.log_user_registration(user.id)
-        
+
         return user
 ```
 
@@ -172,7 +172,7 @@ class DatabaseType(Enum):
 
 class RepositoryFactory:
     """Factory for creating repository instances."""
-    
+
     @staticmethod
     def create_user_repository(db_type: DatabaseType) -> UserRepository:
         match db_type:
@@ -259,7 +259,7 @@ def handle_error(error: Exception) -> Dict[str, Any]:
             "error_code": error.error_code,
             "type": "application_error"
         }
-    
+
     logger.error(f"Unexpected error: {error}", exc_info=True)
     return {
         "error": "Internal server error",
@@ -276,23 +276,23 @@ def handle_error(error: Exception) -> Dict[str, Any]:
 ```python
 class DataAccessLayer:
     """Base data access layer."""
-    
+
     def __init__(self, connection_string: str):
         self.connection_string = connection_string
         self._connection = None
-    
+
     def get_connection(self):
         if not self._connection:
             self._connection = self._create_connection()
         return self._connection
-    
+
     def _create_connection(self):
         # Connection creation logic
         pass
 
 class PostgreSQLDataAccess(DataAccessLayer):
     """PostgreSQL-specific data access."""
-    
+
     def _create_connection(self):
         import psycopg2
         return psycopg2.connect(self.connection_string)
@@ -308,24 +308,24 @@ import polars as pl
 
 class ProcessingStage(ABC):
     """Abstract processing stage."""
-    
+
     @abstractmethod
     def process(self, data: pl.DataFrame) -> pl.DataFrame:
         pass
 
 class DataValidationStage(ProcessingStage):
     """Validate data quality."""
-    
+
     def process(self, data: pl.DataFrame) -> pl.DataFrame:
         # Remove rows with null values in critical columns
         return data.filter(
-            pl.col("amount").is_not_null() & 
+            pl.col("amount").is_not_null() &
             pl.col("timestamp").is_not_null()
         )
 
 class DataTransformationStage(ProcessingStage):
     """Transform data for analysis."""
-    
+
     def process(self, data: pl.DataFrame) -> pl.DataFrame:
         return data.with_columns([
             (pl.col("amount") / 100).alias("amount_dollars"),
@@ -334,10 +334,10 @@ class DataTransformationStage(ProcessingStage):
 
 class DataPipeline:
     """Orchestrates data processing stages."""
-    
+
     def __init__(self, stages: List[ProcessingStage]):
         self.stages = stages
-    
+
     def execute(self, data: pl.DataFrame) -> pl.DataFrame:
         for stage in self.stages:
             data = stage.process(data)
@@ -357,10 +357,10 @@ from jwt import decode, InvalidTokenError
 
 class AuthenticationService:
     """Handles user authentication."""
-    
+
     def __init__(self, secret_key: str):
         self.secret_key = secret_key
-    
+
     def verify_token(self, token: str) -> Optional[Dict[str, Any]]:
         try:
             payload = decode(token, self.secret_key, algorithms=["HS256"])
@@ -375,17 +375,17 @@ def require_auth(roles: List[str] = None):
         async def wrapper(*args, **kwargs):
             # Extract token from request
             token = get_token_from_request()
-            
+
             if not token:
                 raise HTTPException(401, "Authentication required")
-            
+
             user_data = auth_service.verify_token(token)
             if not user_data:
                 raise HTTPException(401, "Invalid token")
-            
+
             if roles and user_data.get("role") not in roles:
                 raise HTTPException(403, "Insufficient permissions")
-            
+
             return await func(*args, **kwargs)
         return wrapper
     return decorator
@@ -406,16 +406,16 @@ import os
 
 class DataProtectionService:
     """Handles data encryption and decryption."""
-    
+
     def __init__(self):
         key = os.getenv("ENCRYPTION_KEY")
         if not key:
             raise ValueError("Encryption key not found")
         self.cipher = Fernet(key.encode())
-    
+
     def encrypt(self, data: str) -> str:
         return self.cipher.encrypt(data.encode()).decode()
-    
+
     def decrypt(self, encrypted_data: str) -> str:
         return self.cipher.decrypt(encrypted_data.encode()).decode()
 
@@ -423,10 +423,10 @@ class DataProtectionService:
 class SensitiveData(BaseModel):
     id: int
     encrypted_ssn: str
-    
+
     def get_ssn(self, protection_service: DataProtectionService) -> str:
         return protection_service.decrypt(self.encrypted_ssn)
-    
+
     def set_ssn(self, ssn: str, protection_service: DataProtectionService) -> None:
         self.encrypted_ssn = protection_service.encrypt(ssn)
 ```
@@ -445,14 +445,14 @@ from typing import Any, Callable, Optional
 
 class CacheService:
     """Redis-based caching service."""
-    
+
     def __init__(self, redis_client: redis.Redis):
         self.redis = redis_client
-    
+
     def get(self, key: str) -> Optional[Any]:
         value = self.redis.get(key)
         return json.loads(value) if value else None
-    
+
     def set(self, key: str, value: Any, ttl: int = 3600) -> None:
         self.redis.setex(key, ttl, json.dumps(value))
 
@@ -463,12 +463,12 @@ def cache_result(ttl: int = 3600, key_prefix: str = ""):
         def wrapper(*args, **kwargs):
             # Generate cache key
             cache_key = f"{key_prefix}:{func.__name__}:{hash(str(args) + str(kwargs))}"
-            
+
             # Try to get from cache
             cached_result = cache_service.get(cache_key)
             if cached_result is not None:
                 return cached_result
-            
+
             # Execute function and cache result
             result = func(*args, **kwargs)
             cache_service.set(cache_key, result, ttl)
@@ -494,22 +494,22 @@ from typing import List
 
 class AsyncDataProcessor:
     """Async data processing service."""
-    
+
     def __init__(self):
         self.session = None
-    
+
     async def __aenter__(self):
         self.session = aiohttp.ClientSession()
         return self
-    
+
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         if self.session:
             await self.session.close()
-    
+
     async def fetch_data(self, url: str) -> Dict[str, Any]:
         async with self.session.get(url) as response:
             return await response.json()
-    
+
     async def process_batch(self, urls: List[str]) -> List[Dict[str, Any]]:
         """Process multiple URLs concurrently."""
         tasks = [self.fetch_data(url) for url in urls]
@@ -518,7 +518,7 @@ class AsyncDataProcessor:
 # Usage
 async def main():
     urls = ["http://api1.com/data", "http://api2.com/data"]
-    
+
     async with AsyncDataProcessor() as processor:
         results = await processor.process_batch(urls)
         return results
@@ -593,22 +593,22 @@ class Settings(BaseSettings):
     redis_url: str
     log_level: str = "INFO"
     debug: bool = False
-    
+
     # Security settings
     secret_key: str
     jwt_expire_minutes: int = 60
-    
+
     # Performance settings
     max_connections: int = 10
     timeout_seconds: int = 30
-    
+
     class Config:
         env_file = ".env"
-    
+
     @property
     def is_production(self) -> bool:
         return self.environment == Environment.PRODUCTION
-    
+
     @property
     def is_development(self) -> bool:
         return self.environment == Environment.DEVELOPMENT
@@ -646,16 +646,16 @@ structlog.configure(
 
 class Logger:
     """Application logger wrapper."""
-    
+
     def __init__(self, name: str):
         self.logger = structlog.get_logger(name)
-    
+
     def info(self, message: str, **kwargs):
         self.logger.info(message, **kwargs)
-    
+
     def error(self, message: str, error: Exception = None, **kwargs):
         self.logger.error(message, error=str(error), **kwargs)
-    
+
     def with_context(self, **kwargs) -> "Logger":
         """Add context to logger."""
         new_logger = Logger("context")
@@ -687,7 +687,7 @@ def track_metrics(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         start_time = time.time()
-        
+
         try:
             result = func(*args, **kwargs)
             REQUEST_COUNT.labels(method='GET', endpoint='/api/users', status='200').inc()
@@ -697,7 +697,7 @@ def track_metrics(func):
             raise
         finally:
             REQUEST_DURATION.observe(time.time() - start_time)
-    
+
     return wrapper
 
 # Start metrics server
@@ -738,7 +738,7 @@ async def list_users(
 ) -> List[User]:
     """
     Retrieve a list of users.
-    
+
     Returns a paginated list of user accounts with their basic information.
     """
     return user_service.list_users(limit=limit, offset=offset)
@@ -755,44 +755,44 @@ from datetime import datetime
 class UserService:
     """
     Service for managing user accounts and operations.
-    
+
     This service handles all business logic related to user management,
     including account creation, updates, and authentication.
     """
-    
+
     def __init__(self, repository: UserRepository, logger: Logger):
         """
         Initialize the user service.
-        
+
         Args:
             repository: Repository for user data access
             logger: Logger instance for service operations
         """
         self._repository = repository
         self._logger = logger
-    
+
     def create_user(
-        self, 
-        user_data: Dict[str, Any], 
+        self,
+        user_data: Dict[str, Any],
         send_welcome_email: bool = True
     ) -> User:
         """
         Create a new user account.
-        
+
         Args:
             user_data: Dictionary containing user information with keys:
                 - name (str): User's full name
                 - email (str): User's email address
                 - phone (str, optional): User's phone number
             send_welcome_email: Whether to send welcome email to new user
-        
+
         Returns:
             Created user instance with generated ID and timestamps
-        
+
         Raises:
             ValidationError: If user_data is invalid or incomplete
             DuplicateEmailError: If email already exists in the system
-            
+
         Example:
             >>> service = UserService(repo, logger)
             >>> user_data = {"name": "John Doe", "email": "john@example.com"}
@@ -801,18 +801,18 @@ class UserService:
             123
         """
         self._logger.info("Creating new user", email=user_data.get("email"))
-        
+
         # Validation logic here
         if not user_data.get("email"):
             raise ValidationError("Email is required")
-        
+
         # Business logic here
         user = User(**user_data)
         user = self._repository.save(user)
-        
+
         if send_welcome_email:
             self._send_welcome_email(user.email)
-        
+
         self._logger.info("User created successfully", user_id=user.id)
         return user
 ```

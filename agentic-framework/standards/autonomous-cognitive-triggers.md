@@ -143,7 +143,7 @@ innovation_multipliers:
 ```yaml
 cloud_auto_routing:
   - primary_specialist: "azure-principal-architect-agent"
-  - quality_assurance: "beast-mode-executor-agent" 
+  - quality_assurance: "beast-mode-executor-agent"
   - if: production_deployment == TRUE
   - security_review: "security-expert-agent"
   - if: external_facing == TRUE

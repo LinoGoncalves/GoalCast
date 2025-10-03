@@ -1,7 +1,7 @@
 ---
 agent_type: "sub_agent"
 role: "security_expert"
-specialization: 
+specialization:
   - "security_architecture"
   - "threat_modeling"
   - "compliance_validation"

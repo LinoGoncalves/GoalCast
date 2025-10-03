@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "ml_engineer"
-specialization: 
+specialization:
   - "model_deployment"
   - "mlops_pipelines"
   - "model_monitoring"

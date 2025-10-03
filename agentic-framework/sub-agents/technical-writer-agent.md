@@ -1,7 +1,7 @@
 ---
 agent_type: "sub_agent"
 role: "technical_writer"
-specialization: 
+specialization:
   - "documentation"
   - "user_guides"
   - "api_documentation"

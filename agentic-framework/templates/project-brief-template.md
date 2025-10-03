@@ -130,22 +130,22 @@
 [List systems this project needs to integrate with]
 
 1. [System Name] - [Integration Type] - [Purpose]
-2. 
-3. 
+2.
+3.
 
 **APIs to Consume**:
 [List third-party APIs or services]
 
 1. [API Name] - [Purpose] - [Documentation URL]
-2. 
-3. 
+2.
+3.
 
 **APIs to Provide**:
 [List APIs this system will expose]
 
 1. [Endpoint Description] - [Consumer] - [Data Format]
-2. 
-3. 
+2.
+3.
 
 ## Project Timeline & Milestones
 

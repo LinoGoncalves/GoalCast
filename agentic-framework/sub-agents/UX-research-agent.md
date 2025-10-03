@@ -1,7 +1,7 @@
 ---
 agent_type: "sub_agent"
 role: "ux_researcher"
-specialization: 
+specialization:
   - "user_research"
   - "usability_testing"
   - "user_feedback_analysis"

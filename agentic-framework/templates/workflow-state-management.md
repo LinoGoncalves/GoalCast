@@ -68,7 +68,7 @@ This document defines the state management system for tracking project progress 
     },
     {
       "name": "data_engineering",
-      "status": "COMPLETED", 
+      "status": "COMPLETED",
       "start_date": "2025-09-27T09:00:00Z",
       "completion_date": "2025-10-02T17:00:00Z",
       "agents_involved": ["data-engineer-agent"],
@@ -103,7 +103,7 @@ This document defines the state management system for tracking project progress 
       "id": "risk_001",
       "description": "Data quality issues in source system",
       "impact": "medium",
-      "likelihood": "low", 
+      "likelihood": "low",
       "mitigation": "Implement data validation checks",
       "owner": "data-engineer-agent"
     }
@@ -117,7 +117,7 @@ This document defines the state management system for tracking project progress 
 {
   "task": {
     "id": "task_003_1",
-    "project_id": "proj_001", 
+    "project_id": "proj_001",
     "phase": "analysis_experimentation",
     "title": "Exploratory Data Analysis",
     "description": "Perform comprehensive EDA on customer transaction data",
@@ -165,7 +165,7 @@ This document defines the state management system for tracking project progress 
     },
     {
       "timestamp": "2025-10-03T14:30:00Z",
-      "actor": "data-scientist-agent", 
+      "actor": "data-scientist-agent",
       "action": "progress_update",
       "message": "Completed initial data loading and cleaning"
     },
@@ -192,7 +192,7 @@ IN_PROGRESS → ON_HOLD → IN_PROGRESS
 IN_PROGRESS → CANCELLED
 ```
 
-#### Phase States  
+#### Phase States
 ```
 NOT_STARTED → IN_PROGRESS → REVIEW_PENDING → COMPLETED
 NOT_STARTED → SKIPPED
@@ -250,13 +250,13 @@ def calculate_project_progress(project):
         "testing": 0.15,
         "deployment": 0.05
     }
-    
+
     total_progress = 0
     for phase in project.phases:
         phase_progress = calculate_phase_progress(phase)
         weight = phase_weights.get(phase.name, 0)
         total_progress += phase_progress * weight
-    
+
     return min(total_progress, 100.0)
 ```
 
@@ -268,7 +268,7 @@ def calculate_project_progress(project):
 - **Cycle Time**: Time from task assignment to completion
 - **Review Time**: Time for human review and approval
 
-#### Quality KPIs  
+#### Quality KPIs
 - **First-Pass Approval Rate**: Percentage of AI deliverables approved without revision
 - **Rework Rate**: Percentage of tasks requiring revision
 - **Quality Gate Pass Rate**: Percentage of phases passing quality gates
@@ -342,7 +342,7 @@ quality_gate_development:
 ```python
 class QualityGateChecker:
     """Enforces quality gates for phase transitions."""
-    
+
     def check_gate(self, phase: Phase, gate_config: dict) -> dict:
         """Check if phase meets quality gate criteria."""
         results = {
@@ -352,7 +352,7 @@ class QualityGateChecker:
             "missing_deliverables": [],
             "blockers": []
         }
-        
+
         # Check criteria
         for criterion, required_value in gate_config["criteria"].items():
             actual_value = self._evaluate_criterion(phase, criterion)
@@ -360,7 +360,7 @@ class QualityGateChecker:
             if not results["criteria_met"][criterion]:
                 results["passed"] = False
                 results["blockers"].append(f"Criterion not met: {criterion}")
-        
+
         # Run automated checks
         for check_name, expected_result in gate_config["automated_checks"].items():
             check_result = self._run_automated_check(phase, check_name)
@@ -368,14 +368,14 @@ class QualityGateChecker:
             if check_result != expected_result:
                 results["passed"] = False
                 results["blockers"].append(f"Automated check failed: {check_name}")
-        
+
         # Check deliverables
         for deliverable in gate_config["minimum_deliverables"]:
             if not self._deliverable_exists(phase, deliverable):
                 results["missing_deliverables"].append(deliverable)
                 results["passed"] = False
                 results["blockers"].append(f"Missing deliverable: {deliverable}")
-        
+
         return results
 ```
 
@@ -386,11 +386,11 @@ class QualityGateChecker:
 ```python
 class HandoffManager:
     """Manages transitions between agents and phases."""
-    
+
     def initiate_handoff(self, from_agent: str, to_agent: str, context: dict):
         """Start handoff process between agents."""
         handoff_id = self._generate_handoff_id()
-        
+
         handoff = {
             "id": handoff_id,
             "from_agent": from_agent,
@@ -401,22 +401,22 @@ class HandoffManager:
             "created_at": datetime.utcnow(),
             "completion_deadline": self._calculate_deadline(context)
         }
-        
+
         # Create handoff record
         self.state_store.save_handoff(handoff)
-        
+
         # Notify receiving agent
         self._notify_agent(to_agent, "handoff_received", handoff)
-        
+
         # Notify human stakeholders
         self._notify_humans(context.get("stakeholders", []), handoff)
-        
+
         return handoff_id
-    
+
     def complete_handoff(self, handoff_id: str, acceptance: dict):
         """Complete handoff process."""
         handoff = self.state_store.get_handoff(handoff_id)
-        
+
         if acceptance.get("accepted", False):
             handoff["status"] = "completed"
             self._update_task_states(handoff, "COMPLETED")
@@ -424,7 +424,7 @@ class HandoffManager:
             handoff["status"] = "rejected"
             handoff["rejection_reason"] = acceptance.get("reason", "")
             self._update_task_states(handoff, "REVISION_REQUESTED")
-        
+
         self.state_store.save_handoff(handoff)
         self._log_handoff_completion(handoff)
 ```
@@ -489,11 +489,11 @@ class HandoffManager:
 ```python
 class ProjectDashboard:
     """Real-time project status dashboard."""
-    
+
     def get_project_overview(self, project_id: str) -> dict:
         """Get high-level project status."""
         project = self.state_store.get_project(project_id)
-        
+
         return {
             "project_name": project.name,
             "overall_progress": calculate_project_progress(project),
@@ -506,11 +506,11 @@ class ProjectDashboard:
             "pending_reviews": len([t for t in self._get_all_tasks(project) if t.status == "UNDER_REVIEW"]),
             "blockers": len(project.blockers)
         }
-    
+
     def get_phase_details(self, project_id: str) -> list:
         """Get detailed phase information."""
         project = self.state_store.get_project(project_id)
-        
+
         phase_details = []
         for phase in project.phases:
             phase_details.append({
@@ -524,7 +524,7 @@ class ProjectDashboard:
                 "deliverables_total": len(phase.deliverables),
                 "quality_gate_passed": phase.quality_gate_passed
             })
-        
+
         return phase_details
 ```
 
@@ -533,10 +533,10 @@ class ProjectDashboard:
 ```python
 class NotificationManager:
     """Manages notifications for state changes."""
-    
+
     def send_notification(self, event_type: str, recipients: list, context: dict):
         """Send notification based on event type."""
-        
+
         notification_templates = {
             "task_ready_for_review": {
                 "subject": "Task Ready for Review: {task_title}",
@@ -554,7 +554,7 @@ class NotificationManager:
                 "urgency": "high"
             }
         }
-        
+
         template = notification_templates.get(event_type)
         if template:
             self._send_email(recipients, template, context)

@@ -8,7 +8,7 @@ body:
       value: |
         ## User Story Template
         Define a specific, testable user requirement with clear acceptance criteria.
-        
+
   - type: input
     id: parent-epic
     attributes:
@@ -17,7 +17,7 @@ body:
       placeholder: "#123"
     validations:
       required: false
-      
+
   - type: textarea
     id: user-story
     attributes:
@@ -32,7 +32,7 @@ body:
         So that I can enhance model accuracy with expected goals
     validations:
       required: true
-      
+
   - type: textarea
     id: acceptance-criteria
     attributes:
@@ -49,7 +49,7 @@ body:
         ```
     validations:
       required: true
-      
+
   - type: textarea
     id: technical-approach
     attributes:
@@ -62,7 +62,7 @@ body:
         - Validate with pydantic models
     validations:
       required: false
-      
+
   - type: textarea
     id: testing-strategy
     attributes:
@@ -74,7 +74,7 @@ body:
         - Mock API responses for reproducibility
     validations:
       required: false
-      
+
   - type: dropdown
     id: story-points
     attributes:
@@ -89,7 +89,7 @@ body:
         - "13 - Needs Breaking Down"
     validations:
       required: true
-      
+
   - type: dropdown
     id: priority
     attributes:

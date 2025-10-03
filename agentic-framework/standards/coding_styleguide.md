@@ -15,7 +15,7 @@ This document defines the coding standards and style guidelines for Python 3.13+
 ### Primary Tools
 
 - **Formatter**: [Ruff](https://docs.astral.sh/ruff/) (format mode)
-- **Linter**: [Ruff](https://docs.astral.sh/ruff/) (lint mode)  
+- **Linter**: [Ruff](https://docs.astral.sh/ruff/) (lint mode)
 - **Type Checker**: [mypy](https://mypy.readthedocs.io/)
 - **Security Linter**: [bandit](https://bandit.readthedocs.io/)
 - **Import Sorting**: Ruff (replaces isort)
@@ -122,7 +122,7 @@ All public functions and methods must include type hints:
 
 ```python
 def process_data(
-    data: pd.DataFrame, 
+    data: pd.DataFrame,
     filters: Dict[str, Any],
     threshold: float = 0.8
 ) -> pd.DataFrame:
@@ -141,24 +141,24 @@ Use Google-style docstrings for all public modules, classes, and functions:
 
 ```python
 def calculate_metrics(
-    data: pd.DataFrame, 
+    data: pd.DataFrame,
     metric_type: str,
     window_size: int = 30
 ) -> Dict[str, float]:
     """Calculate metrics for the given dataset.
-    
+
     Args:
         data: Input DataFrame containing time series data
         metric_type: Type of metric to calculate ('volatility', 'returns', etc.)
         window_size: Rolling window size for calculations (default: 30)
-        
+
     Returns:
         Dictionary containing calculated metrics with metric names as keys
-        
+
     Raises:
         ValueError: If metric_type is not supported
         KeyError: If required columns are missing from data
-        
+
     Examples:
         >>> data = pd.DataFrame({'price': [100, 101, 99, 102]})
         >>> metrics = calculate_metrics(data, 'returns')
@@ -290,13 +290,13 @@ import re
 class UserInput(BaseModel):
     email: str
     amount: float
-    
+
     @validator('email')
     def validate_email(cls, v):
         if not re.match(r'^[^@]+@[^@]+\.[^@]+$', v):
             raise ValueError('Invalid email format')
         return v
-    
+
     @validator('amount')
     def validate_amount(cls, v):
         if v < 0:
@@ -339,28 +339,28 @@ from myapp.services import UserService
 
 class TestUserService:
     """Test suite for UserService."""
-    
+
     @pytest.fixture
     def user_service(self):
         """Fixture for UserService instance."""
         return UserService()
-    
+
     def test_create_user_success(self, user_service):
         """Test successful user creation."""
         # Arrange
         user_data = {"name": "John Doe", "email": "john@example.com"}
-        
+
         # Act
         result = user_service.create_user(user_data)
-        
+
         # Assert
         assert result.name == "John Doe"
         assert result.email == "john@example.com"
-    
+
     def test_create_user_invalid_email(self, user_service):
         """Test user creation with invalid email."""
         user_data = {"name": "John Doe", "email": "invalid-email"}
-        
+
         with pytest.raises(ValueError, match="Invalid email format"):
             user_service.create_user(user_data)
 ```
@@ -377,13 +377,13 @@ repos:
       - id: ruff
         args: [--fix]
       - id: ruff-format
-  
+
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.8.0
     hooks:
       - id: mypy
         additional_dependencies: [types-requests]
-  
+
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.5
     hooks:
@@ -405,33 +405,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.13"
-          
+
       - name: Install uv
         run: pip install uv
-        
+
       - name: Install dependencies
         run: uv sync
-        
+
       - name: Run Ruff
         run: uv run ruff check .
-        
+
       - name: Run Ruff format
         run: uv run ruff format --check .
-        
+
       - name: Run mypy
         run: uv run mypy src/
-        
+
       - name: Run bandit
         run: uv run bandit -r src/
-        
+
       - name: Run tests
         run: uv run pytest --cov=src --cov-report=xml
-        
+
       - name: Upload coverage
         uses: codecov/codecov-action@v3
 ```

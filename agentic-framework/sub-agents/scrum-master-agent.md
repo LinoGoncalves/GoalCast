@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "scrum_master"
-specialization: 
+specialization:
   - "agile_facilitation"
   - "process_improvement"
   - "team_dynamics"

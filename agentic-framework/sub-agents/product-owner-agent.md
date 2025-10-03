@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "product_owner"
-specialization: 
+specialization:
   - "requirements_analysis"
   - "stakeholder_management"
   - "product_strategy"

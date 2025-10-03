@@ -54,7 +54,7 @@ addopts = [
 ]
 markers = [
     "unit: Unit tests",
-    "integration: Integration tests", 
+    "integration: Integration tests",
     "e2e: End-to-end tests",
     "slow: Slow running tests",
     "external: Tests requiring external services",
@@ -101,7 +101,7 @@ def test_create_user_with_valid_data_returns_user():
     pass
 
 def test_create_user_with_duplicate_email_raises_validation_error():
-    """Test that creating a user with duplicate email raises ValidationError.""" 
+    """Test that creating a user with duplicate email raises ValidationError."""
     pass
 
 def test_calculate_portfolio_value_with_empty_portfolio_returns_zero():
@@ -121,7 +121,7 @@ from myproject.exceptions import ValidationError
 
 class TestUserService:
     """Test suite for UserService."""
-    
+
     def test_create_user_with_valid_data_returns_user(self):
         """Test user creation with valid data."""
         # Arrange
@@ -131,17 +131,17 @@ class TestUserService:
             "email": "john@example.com",
             "age": 30
         }
-        
+
         # Act
         result = service.create_user(user_data)
-        
+
         # Assert
         assert isinstance(result, User)
         assert result.name == "John Doe"
         assert result.email == "john@example.com"
         assert result.age == 30
         assert result.id is not None
-    
+
     def test_create_user_with_invalid_email_raises_validation_error(self):
         """Test user creation with invalid email format."""
         # Arrange
@@ -151,11 +151,11 @@ class TestUserService:
             "email": "invalid-email",
             "age": 30
         }
-        
+
         # Act & Assert
         with pytest.raises(ValidationError) as exc_info:
             service.create_user(user_data)
-        
+
         assert "Invalid email format" in str(exc_info.value)
 ```
 
@@ -191,7 +191,7 @@ def user_data():
     """Valid user data for testing."""
     return {
         "name": "Jane Smith",
-        "email": "jane@example.com", 
+        "email": "jane@example.com",
         "age": 25
     }
 ```
@@ -210,7 +210,7 @@ class UserFactory(factory.Factory):
     """Factory for creating User instances."""
     class Meta:
         model = User
-    
+
     name = factory.Sequence(lambda n: f"User {n}")
     email = factory.LazyAttribute(lambda obj: f"{obj.name.lower().replace(' ', '.')}@example.com")
     age = factory.Faker('random_int', min=18, max=80)
@@ -220,7 +220,7 @@ class OrderFactory(factory.Factory):
     """Factory for creating Order instances."""
     class Meta:
         model = Order
-    
+
     user = SubFactory(UserFactory)
     amount = factory.Faker('pydecimal', left_digits=4, right_digits=2, positive=True)
     status = "pending"
@@ -245,18 +245,18 @@ from myproject.external import PaymentGateway
 
 class TestPaymentService:
     """Test suite for PaymentService."""
-    
+
     def test_process_payment_success(self):
         """Test successful payment processing."""
         # Arrange
         mock_gateway = Mock(spec=PaymentGateway)
         mock_gateway.charge.return_value = {"transaction_id": "txn_123", "status": "success"}
-        
+
         service = PaymentService(gateway=mock_gateway)
-        
+
         # Act
         result = service.process_payment(amount=100.50, card_token="card_123")
-        
+
         # Assert
         assert result["status"] == "success"
         assert result["transaction_id"] == "txn_123"
@@ -264,16 +264,16 @@ class TestPaymentService:
             amount=100.50,
             card_token="card_123"
         )
-    
+
     @patch('myproject.external.EmailService.send')
     def test_send_confirmation_email(self, mock_send):
         """Test sending confirmation email."""
         # Arrange
         service = PaymentService()
-        
+
         # Act
         service.send_confirmation("user@example.com", "txn_123")
-        
+
         # Assert
         mock_send.assert_called_once()
         args, kwargs = mock_send.call_args
@@ -291,19 +291,19 @@ from myproject.services import AsyncUserService
 
 class TestAsyncUserService:
     """Test suite for AsyncUserService."""
-    
+
     @pytest.mark.asyncio
     async def test_fetch_user_data_success(self):
         """Test successful async user data fetching."""
         # Arrange
         mock_client = AsyncMock()
         mock_client.get_user.return_value = {"id": 1, "name": "John Doe"}
-        
+
         service = AsyncUserService(client=mock_client)
-        
+
         # Act
         result = await service.fetch_user_data(user_id=1)
-        
+
         # Assert
         assert result["name"] == "John Doe"
         mock_client.get_user.assert_called_once_with(1)
@@ -325,27 +325,27 @@ def db_session():
     """Create a test database session."""
     engine = create_engine("sqlite:///:memory:")
     Base.metadata.create_all(engine)
-    
+
     Session = sessionmaker(bind=engine)
     session = Session()
-    
+
     yield session
-    
+
     session.close()
 
 class TestUserRepository:
     """Integration tests for UserRepository."""
-    
+
     def test_save_and_retrieve_user(self, db_session):
         """Test saving and retrieving a user from database."""
         # Arrange
         repository = UserRepository(session=db_session)
         user_data = {"name": "John Doe", "email": "john@example.com"}
-        
+
         # Act
         saved_user = repository.save(User(**user_data))
         retrieved_user = repository.find_by_id(saved_user.id)
-        
+
         # Assert
         assert retrieved_user is not None
         assert retrieved_user.name == "John Doe"
@@ -369,10 +369,10 @@ async def test_create_user_endpoint():
             "email": "john@example.com",
             "age": 30
         }
-        
+
         # Act
         response = await client.post("/users", json=user_data)
-        
+
         # Assert
         assert response.status_code == 201
         data = response.json()
@@ -398,13 +398,13 @@ from locust import HttpUser, task, between
 
 class UserBehavior(HttpUser):
     """Simulate user behavior for load testing."""
-    
+
     wait_time = between(1, 3)
-    
+
     def on_start(self):
         """Execute when user starts."""
         self.login()
-    
+
     def login(self):
         """Login user for testing."""
         response = self.client.post("/auth/login", json={
@@ -412,13 +412,13 @@ class UserBehavior(HttpUser):
             "password": "password123"
         })
         self.token = response.json().get("token")
-    
+
     @task(3)
     def view_users(self):
         """View users list."""
         self.client.get("/users", headers={"Authorization": f"Bearer {self.token}"})
-    
-    @task(1) 
+
+    @task(1)
     def create_user(self):
         """Create a new user."""
         user_data = {
@@ -426,7 +426,7 @@ class UserBehavior(HttpUser):
             "email": f"test{self.random_id()}@example.com"
         }
         self.client.post("/users", json=user_data, headers={"Authorization": f"Bearer {self.token}"})
-    
+
     def random_id(self):
         """Generate random ID."""
         import random
@@ -442,19 +442,19 @@ from myproject.services import DataProcessingService
 
 class TestPerformance:
     """Performance tests for critical functions."""
-    
+
     @pytest.mark.slow
     def test_data_processing_performance(self):
         """Test that data processing meets performance requirements."""
         # Arrange
         service = DataProcessingService()
         large_dataset = generate_test_data(rows=10000)
-        
+
         # Act
         start_time = time.time()
         result = service.process_data(large_dataset)
         end_time = time.time()
-        
+
         # Assert
         processing_time = end_time - start_time
         assert processing_time < 2.0, f"Processing took {processing_time:.2f}s, should be < 2.0s"
@@ -495,30 +495,30 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.13"]
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-    
+
     - name: Install uv
       run: pip install uv
-    
+
     - name: Install dependencies
       run: uv sync
-    
+
     - name: Run unit tests
       run: uv run pytest tests/unit/ -v
-    
+
     - name: Run integration tests
       run: uv run pytest tests/integration/ -v
-    
+
     - name: Check coverage
       run: uv run pytest --cov=src --cov-fail-under=80 --cov-report=xml
-    
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
@@ -550,12 +550,12 @@ def db_session(test_engine):
     """Create database session for tests."""
     connection = test_engine.connect()
     transaction = connection.begin()
-    
+
     Session = sessionmaker(bind=connection)
     session = Session()
-    
+
     yield session
-    
+
     session.close()
     transaction.rollback()
     connection.close()
@@ -565,12 +565,12 @@ def client(db_session):
     """Create test client with database session."""
     def override_get_db():
         yield db_session
-    
+
     app.dependency_overrides[get_db_session] = override_get_db
-    
+
     with TestClient(app) as test_client:
         yield test_client
-    
+
     app.dependency_overrides.clear()
 ```
 
@@ -590,7 +590,7 @@ def load_json_data(filename: str) -> dict:
         return json.load(f)
 
 def load_csv_data(filename: str) -> list:
-    """Load test data from CSV file.""" 
+    """Load test data from CSV file."""
     with open(TEST_DATA_DIR / filename) as f:
         return list(csv.DictReader(f))
 
@@ -613,31 +613,31 @@ from myproject.exceptions import UnauthorizedError
 
 class TestAuthService:
     """Security tests for authentication."""
-    
+
     def test_login_with_valid_credentials_returns_token(self):
         """Test login with valid credentials."""
         # Arrange
         auth_service = AuthService()
-        
+
         # Act
         token = auth_service.login("user@example.com", "correct_password")
-        
+
         # Assert
         assert token is not None
         assert auth_service.verify_token(token) is not None
-    
+
     def test_login_with_invalid_password_raises_unauthorized(self):
         """Test login with invalid password."""
         auth_service = AuthService()
-        
+
         with pytest.raises(UnauthorizedError):
             auth_service.login("user@example.com", "wrong_password")
-    
+
     def test_verify_expired_token_raises_unauthorized(self):
         """Test that expired tokens are rejected."""
         auth_service = AuthService()
         expired_token = "expired.jwt.token"
-        
+
         with pytest.raises(UnauthorizedError):
             auth_service.verify_token(expired_token)
 ```
@@ -650,7 +650,7 @@ from myproject.validators import validate_email, validate_amount
 
 class TestInputValidation:
     """Security tests for input validation."""
-    
+
     @pytest.mark.parametrize("email,expected", [
         ("valid@example.com", True),
         ("user.name+tag@domain.co.uk", True),
@@ -664,7 +664,7 @@ class TestInputValidation:
         """Test email validation with various inputs."""
         result = validate_email(email)
         assert result == expected
-    
+
     @pytest.mark.parametrize("amount,should_raise", [
         (100.50, False),
         (0, False),
@@ -689,18 +689,18 @@ class TestInputValidation:
 def test_portfolio_rebalancing_with_market_volatility():
     """
     Test portfolio rebalancing during high market volatility.
-    
+
     This test verifies that the portfolio rebalancing algorithm:
     1. Correctly identifies when volatility exceeds threshold (>20%)
     2. Applies appropriate risk adjustments to asset allocation
     3. Maintains portfolio within risk tolerance bounds
     4. Generates appropriate trade orders for rebalancing
-    
+
     Test Data:
     - Portfolio with $100,000 across 5 assets
     - Historical volatility data showing 25% volatility spike
     - Risk tolerance set to moderate (15% max allocation per asset)
-    
+
     Expected Behavior:
     - Risk adjustment factor should be applied (0.8x normal allocation)
     - No single asset should exceed 12% allocation (15% * 0.8)
@@ -725,7 +725,7 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
-      
+
       - id: pytest-coverage
         name: Check test coverage
         entry: uv run pytest --cov=src --cov-fail-under=80
@@ -762,9 +762,9 @@ def setup_test_environment():
     # Reset any global state
     clear_caches()
     reset_counters()
-    
+
     yield
-    
+
     # Clean up after test
     cleanup_test_data()
 ```

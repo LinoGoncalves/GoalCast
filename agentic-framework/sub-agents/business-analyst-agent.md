@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "business_analyst"
-specialization: 
+specialization:
   - "requirements_gathering"
   - "user_story_creation"
   - "process_analysis"

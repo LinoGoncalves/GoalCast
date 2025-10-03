@@ -1,7 +1,7 @@
 ---
 agent_type: "sub_agent"
 role: "critical_analyst"
-specialization: 
+specialization:
   - "assumption_validation"
   - "critical_thinking"
   - "risk_assessment"

@@ -82,15 +82,15 @@ You are a specialized **Expert .NET Software Engineer Agent** with comprehensive
 public class Order : AggregateRoot
 {
     private readonly List<OrderItem> _items = new();
-    
+
     public OrderId Id { get; private set; }
     public CustomerId CustomerId { get; private set; }
     public OrderStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public IReadOnlyList<OrderItem> Items => _items.AsReadOnly();
-    
+
     private Order() { } // EF Core constructor
-    
+
     public static Order Create(CustomerId customerId)
     {
         var order = new Order
@@ -100,16 +100,16 @@ public class Order : AggregateRoot
             Status = OrderStatus.Pending,
             CreatedAt = DateTime.UtcNow
         };
-        
+
         order.AddDomainEvent(new OrderCreatedEvent(order.Id, customerId));
         return order;
     }
-    
+
     public void AddItem(ProductId productId, int quantity, decimal price)
     {
         Guard.Against.NegativeOrZero(quantity, nameof(quantity));
         Guard.Against.NegativeOrZero(price, nameof(price));
-        
+
         var existingItem = _items.FirstOrDefault(x => x.ProductId == productId);
         if (existingItem != null)
         {
@@ -119,7 +119,7 @@ public class Order : AggregateRoot
         {
             _items.Add(OrderItem.Create(productId, quantity, price));
         }
-        
+
         AddDomainEvent(new OrderItemAddedEvent(Id, productId, quantity));
     }
 }
@@ -137,7 +137,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
     private readonly ICustomerRepository _customerRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<CreateOrderCommandHandler> _logger;
-    
+
     public CreateOrderCommandHandler(
         IOrderRepository orderRepository,
         ICustomerRepository customerRepository,
@@ -149,22 +149,22 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
-    
+
     public async Task<OrderDto> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
         using var activity = ActivitySource.StartActivity("CreateOrder");
         activity?.SetTag("customerId", request.CustomerId);
-        
+
         var customerId = new CustomerId(request.CustomerId);
         var customer = await _customerRepository.GetByIdAsync(customerId, cancellationToken);
-        
+
         if (customer == null)
         {
             throw new CustomerNotFoundException(customerId);
         }
-        
+
         var order = Order.Create(customerId);
-        
+
         foreach (var item in request.Items)
         {
             order.AddItem(
@@ -172,13 +172,13 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
                 item.Quantity,
                 item.Price);
         }
-        
+
         await _orderRepository.AddAsync(order, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        
-        _logger.LogInformation("Order {OrderId} created for customer {CustomerId}", 
+
+        _logger.LogInformation("Order {OrderId} created for customer {CustomerId}",
             order.Id.Value, customer.Id.Value);
-        
+
         return order.ToDto();
     }
 }
@@ -190,12 +190,12 @@ public record GetOrdersByCustomerQuery(Guid CustomerId, int Page, int PageSize) 
 public class GetOrdersByCustomerQueryHandler : IRequestHandler<GetOrdersByCustomerQuery, PagedResult<OrderDto>>
 {
     private readonly IOrderReadRepository _orderReadRepository;
-    
+
     public GetOrdersByCustomerQueryHandler(IOrderReadRepository orderReadRepository)
     {
         _orderReadRepository = orderReadRepository;
     }
-    
+
     public async Task<PagedResult<OrderDto>> Handle(GetOrdersByCustomerQuery request, CancellationToken cancellationToken)
     {
         return await _orderReadRepository.GetOrdersByCustomerAsync(
@@ -250,7 +250,7 @@ static async Task<Results<Created<OrderDto>, ValidationProblem, BadRequest<Probl
     {
         return TypedResults.ValidationProblem(validationResult.ToDictionary());
     }
-    
+
     try
     {
         var command = new CreateOrderCommand(request.CustomerId, request.Items);
@@ -308,21 +308,21 @@ static async Task<Results<Created<OrderDto>, ValidationProblem, BadRequest<Probl
 public class DtoGenerator : ISourceGenerator
 {
     public void Initialize(GeneratorInitializationContext context) { }
-    
+
     public void Execute(GeneratorExecutionContext context)
     {
         var compilation = context.Compilation;
         var domainTypes = compilation.GetSymbolsWithName(name => name.EndsWith("Entity"))
             .OfType<INamedTypeSymbol>()
             .Where(s => s.GetAttributes().Any(a => a.AttributeClass?.Name == "GenerateDtoAttribute"));
-        
+
         foreach (var type in domainTypes)
         {
             var dtoSource = GenerateDtoClass(type);
             context.AddSource($"{type.Name}Dto.g.cs", dtoSource);
         }
     }
-    
+
     private string GenerateDtoClass(INamedTypeSymbol entityType)
     {
         var properties = entityType.GetMembers()
@@ -330,7 +330,7 @@ public class DtoGenerator : ISourceGenerator
             .Where(p => p.DeclaredAccessibility == Accessibility.Public)
             .Select(p => $"    public {p.Type.Name} {p.Name} {{ get; set; }}")
             .ToArray();
-        
+
         return $@"
 namespace {entityType.ContainingNamespace.ToDisplayString()}.Dtos
 {{
@@ -371,7 +371,7 @@ public class OrderServiceTests
     private readonly Mock<IOrderRepository> _orderRepositoryMock;
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly OrderService _sut;
-    
+
     public OrderServiceTests()
     {
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
@@ -379,31 +379,31 @@ public class OrderServiceTests
         _unitOfWorkMock = _fixture.Freeze<Mock<IUnitOfWork>>();
         _sut = _fixture.Create<OrderService>();
     }
-    
+
     [Fact]
     public async Task CreateOrder_WithValidData_ShouldReturnOrderDto()
     {
         // Arrange
         var command = _fixture.Create<CreateOrderCommand>();
         var expectedOrder = _fixture.Create<Order>();
-        
+
         _orderRepositoryMock
             .Setup(x => x.AddAsync(It.IsAny<Order>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        
+
         // Act
         var result = await _sut.CreateOrderAsync(command, CancellationToken.None);
-        
+
         // Assert
         result.Should().NotBeNull();
         result.CustomerId.Should().Be(command.CustomerId);
         result.Items.Should().HaveCount(command.Items.Count);
-        
-        _orderRepositoryMock.Verify(x => 
-            x.AddAsync(It.IsAny<Order>(), CancellationToken.None), 
+
+        _orderRepositoryMock.Verify(x =>
+            x.AddAsync(It.IsAny<Order>(), CancellationToken.None),
             Times.Once);
-        _unitOfWorkMock.Verify(x => 
-            x.SaveChangesAsync(CancellationToken.None), 
+        _unitOfWorkMock.Verify(x =>
+            x.SaveChangesAsync(CancellationToken.None),
             Times.Once);
     }
 }
@@ -413,13 +413,13 @@ public class OrderApiIntegrationTests : IClassFixture<WebApplicationFactory<Prog
 {
     private readonly WebApplicationFactory<Program> _factory;
     private readonly HttpClient _client;
-    
+
     public OrderApiIntegrationTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
         _client = _factory.CreateClient();
     }
-    
+
     [Fact]
     public async Task CreateOrder_WithValidPayload_ShouldReturn201()
     {
@@ -432,13 +432,13 @@ public class OrderApiIntegrationTests : IClassFixture<WebApplicationFactory<Prog
                 new() { ProductId = Guid.NewGuid(), Quantity = 2, Price = 10.50m }
             }
         };
-        
+
         // Act
         var response = await _client.PostAsJsonAsync("/api/orders", request);
-        
+
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
-        
+
         var content = await response.Content.ReadFromJsonAsync<OrderDto>();
         content.Should().NotBeNull();
         content!.CustomerId.Should().Be(request.CustomerId);

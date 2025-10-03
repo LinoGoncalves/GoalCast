@@ -8,7 +8,7 @@ body:
       value: |
         ## Epic Template
         Define a major project initiative with clear business value and success criteria.
-        
+
   - type: input
     id: epic-name
     attributes:
@@ -17,7 +17,7 @@ body:
       placeholder: "e.g., Data Foundation & Ingestion Pipeline"
     validations:
       required: true
-      
+
   - type: textarea
     id: business-value
     attributes:
@@ -32,7 +32,7 @@ body:
         So that my statistical models have accurate, reproducible inputs
     validations:
       required: true
-      
+
   - type: textarea
     id: success-metrics
     attributes:
@@ -43,7 +43,7 @@ body:
         - Metric 2: Target value
     validations:
       required: true
-      
+
   - type: textarea
     id: user-stories
     attributes:
@@ -55,7 +55,7 @@ body:
         3. [Story 3 title]
     validations:
       required: false
-      
+
   - type: textarea
     id: dependencies
     attributes:
@@ -64,7 +64,7 @@ body:
       placeholder: "Depends on #123, #456"
     validations:
       required: false
-      
+
   - type: textarea
     id: technical-notes
     attributes:
@@ -72,7 +72,7 @@ body:
       description: Architecture decisions, tech stack, or implementation considerations
     validations:
       required: false
-      
+
   - type: dropdown
     id: priority
     attributes:
@@ -85,7 +85,7 @@ body:
         - P3 - Low
     validations:
       required: true
-      
+
   - type: dropdown
     id: complexity
     attributes:

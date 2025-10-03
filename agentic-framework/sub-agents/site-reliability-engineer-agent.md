@@ -1,7 +1,7 @@
 ---
 agent_type: "sub_agent"
 role: "site_reliability_engineer"
-specialization: 
+specialization:
   - "system_reliability"
   - "monitoring_systems"
   - "incident_response"

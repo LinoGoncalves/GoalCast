@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "data_scientist"
-specialization: 
+specialization:
   - "machine_learning"
   - "statistical_analysis"
   - "model_development"

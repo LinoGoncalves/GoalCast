@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         ## Feature Request Template
-        
+
   - type: textarea
     id: problem
     attributes:
@@ -16,7 +16,7 @@ body:
       placeholder: "Currently, the model doesn't account for..."
     validations:
       required: true
-      
+
   - type: textarea
     id: solution
     attributes:
@@ -29,7 +29,7 @@ body:
         - Validate with historical data
     validations:
       required: true
-      
+
   - type: textarea
     id: alternatives
     attributes:
@@ -37,7 +37,7 @@ body:
       description: What other approaches did you consider?
     validations:
       required: false
-      
+
   - type: textarea
     id: success-criteria
     attributes:
@@ -48,7 +48,7 @@ body:
         - Validated against last season's data
     validations:
       required: false
-      
+
   - type: dropdown
     id: priority
     attributes:

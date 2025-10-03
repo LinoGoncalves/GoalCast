@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "test_manager"
-specialization: 
+specialization:
   - "test_strategy"
   - "quality_metrics"
   - "test_coordination"

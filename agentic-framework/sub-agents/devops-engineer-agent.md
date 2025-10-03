@@ -1,7 +1,7 @@
 ---
 agent_type: "sub_agent"
 role: "devops_engineer"
-specialization: 
+specialization:
   - "ci_cd_pipeline"
   - "deployment_automation"
   - "monitoring_setup"

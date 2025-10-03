@@ -1,7 +1,7 @@
 ---
 agent_type: "sub_agent"
 role: "project_manager"
-specialization: 
+specialization:
   - "project_planning"
   - "resource_management"
   - "timeline_tracking"

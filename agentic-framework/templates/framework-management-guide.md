@@ -199,7 +199,7 @@ git add .
 git commit -m "Enhancement: Add retry logic to agent integration
 
 - Adds exponential backoff for API timeouts
-- Improves resilience in agent communication  
+- Improves resilience in agent communication
 - Tested in Customer Analytics Platform project
 - Addresses issue: agents failing on network hiccups"
 
@@ -392,7 +392,7 @@ python agentic-scripts/cli.py init --reconfigure
 ## Best Practices Summary
 
 1. **Always use the framework manager** for project initialization
-2. **Document enhancements** as you identify them during development  
+2. **Document enhancements** as you identify them during development
 3. **Test framework changes** in multiple project contexts before merging
 4. **Keep enhancements focused** - one improvement per enhancement branch
 5. **Update framework regularly** in active projects

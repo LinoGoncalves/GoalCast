@@ -93,7 +93,7 @@ When contributing new development standards:
 5. **Commit with Clear Messages**:
    ```bash
    git commit -m "feat: add [feature name]
-   
+
    - Detailed description of changes
    - Why this change is needed
    - Any breaking changes"

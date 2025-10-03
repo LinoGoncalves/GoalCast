@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "data_engineer"
-specialization: 
+specialization:
   - "data_pipeline_development"
   - "etl_processes"
   - "data_quality_assurance"

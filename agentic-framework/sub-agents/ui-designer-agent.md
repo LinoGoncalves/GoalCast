@@ -1,7 +1,7 @@
 ---
 agent_type: "sub_agent"
 role: "ui_designer"
-specialization: 
+specialization:
   - "user_interface_design"
   - "user_experience"
   - "prototyping"

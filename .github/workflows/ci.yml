@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  quality-checks:
+    name: Code Quality & Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+          enable-cache: true
+
+      - name: Install dependencies
+        run: |
+          uv sync --all-extras --dev
+
+      - name: Run Ruff (linting)
+        run: |
+          uv run ruff check src/ tests/
+
+      - name: Run Ruff (formatting check)
+        run: |
+          uv run ruff format --check src/ tests/
+
+      - name: Run MyPy (type checking)
+        run: |
+          uv run mypy src/goalcast
+
+      - name: Run Bandit (security scan)
+        run: |
+          uv run bandit -c pyproject.toml -r src/goalcast
+        continue-on-error: true  # Don't fail build on security warnings initially
+
+      - name: Run Pytest (with coverage)
+        run: |
+          uv run pytest --cov=goalcast --cov-report=xml --cov-report=term-missing
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-goalcast
+          fail_ci_if_error: false  # Don't fail if Codecov is down
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  build-check:
+    name: Build Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Build package
+        run: |
+          uv build
+
+      - name: Check distribution
+        run: |
+          ls -lh dist/
+
+  # Optional: Semgrep security scanning (requires SEMGREP_APP_TOKEN)
+  semgrep:
+    name: Semgrep Security Scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    container:
+      image: semgrep/semgrep
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        run: semgrep scan --config=auto --json --output=semgrep.json
+        continue-on-error: true
+
+      - name: Upload Semgrep results
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: semgrep.json

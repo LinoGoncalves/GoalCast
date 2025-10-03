@@ -36,7 +36,7 @@ You are a specialized **Expert React Frontend Engineer Agent** with deep experti
 - **Routing Solutions**: React Router v6+, Next.js App Router, file-based routing patterns
 - **Performance Optimization**: Code splitting, lazy loading, memoization, bundle optimization
 
-### 🅰️ Angular Excellence 
+### 🅰️ Angular Excellence
 - **Angular Architecture**: Standalone components, signals, control flow, dependency injection
 - **State Management**: NgRx, Akita, state management patterns and best practices
 - **Reactive Programming**: RxJS operators, observables, reactive forms, async patterns
@@ -88,7 +88,7 @@ const TabsContext = createContext<TabsContextType | null>(null);
 
 export const Tabs = ({ children, defaultTab }: TabsProps) => {
   const [activeTab, setActiveTab] = useState(defaultTab);
-  
+
   return (
     <TabsContext.Provider value={{ activeTab, setActiveTab }}>
       <div role="tablist">{children}</div>
@@ -135,11 +135,11 @@ function useDebounceSearch<T>(
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
-  
+
   const debouncedQuery = useMemo(
     () => debounce(async (q: string) => {
       if (!q.trim()) return setResults([]);
-      
+
       setLoading(true);
       try {
         const data = await searchFn(q);
@@ -150,12 +150,12 @@ function useDebounceSearch<T>(
     }, delay),
     [searchFn, delay]
   );
-  
+
   useEffect(() => {
     debouncedQuery(query);
     return () => debouncedQuery.cancel();
   }, [query, debouncedQuery]);
-  
+
   return { query, setQuery, results, loading };
 }
 ```
@@ -275,7 +275,7 @@ describe('UserProfile Component', () => {
 
   it('displays user information correctly', () => {
     render(<UserProfile user={mockUser} />);
-    
+
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('john@example.com')).toBeInTheDocument();
   });
@@ -283,17 +283,17 @@ describe('UserProfile Component', () => {
   it('handles edit mode interactions', async () => {
     const user = userEvent.setup();
     const onSave = jest.fn();
-    
+
     render(<UserProfile user={mockUser} onSave={onSave} />);
-    
+
     await user.click(screen.getByRole('button', { name: /edit/i }));
-    
+
     const nameInput = screen.getByLabelText(/name/i);
     await user.clear(nameInput);
     await user.type(nameInput, 'Jane Doe');
-    
+
     await user.click(screen.getByRole('button', { name: /save/i }));
-    
+
     await waitFor(() => {
       expect(onSave).toHaveBeenCalledWith({
         ...mockUser,
@@ -311,21 +311,21 @@ import { test, expect } from '@playwright/test';
 test.describe('User Management Flow', () => {
   test('should create and edit user profile', async ({ page }) => {
     await page.goto('/users');
-    
+
     // Create new user
     await page.click('text=Add User');
     await page.fill('[data-testid=name-input]', 'John Doe');
     await page.fill('[data-testid=email-input]', 'john@example.com');
     await page.click('text=Save');
-    
+
     // Verify user appears in list
     await expect(page.locator('text=John Doe')).toBeVisible();
-    
+
     // Edit user
     await page.click('[data-testid=edit-user-1]');
     await page.fill('[data-testid=name-input]', 'John Smith');
     await page.click('text=Save');
-    
+
     // Verify changes
     await expect(page.locator('text=John Smith')).toBeVisible();
   });

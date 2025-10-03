@@ -1,0 +1,81 @@
+# Pre-commit hooks for GoalCast
+# Install: uv run pre-commit install
+# Run manually: uv run pre-commit run --all-files
+# Update hooks: uv run pre-commit autoupdate
+
+repos:
+  # Ruff - Fast Python linter and formatter (replaces black, isort, flake8, etc.)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.13.3
+    hooks:
+      # Run the linter
+      - id: ruff
+        args: [--fix]
+        types_or: [python, pyi]
+      # Run the formatter
+      - id: ruff-format
+        types_or: [python, pyi]
+
+  # MyPy - Static type checker
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - types-requests
+          - types-PyYAML
+        args: [src/goalcast]
+        files: ^src/goalcast/.*\.py$
+
+  # Bandit - Security vulnerability scanner
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.0
+    hooks:
+      - id: bandit
+        args: ['-c', 'pyproject.toml', '-r', 'src/goalcast']
+        additional_dependencies: ['bandit[toml]']
+
+  # General file quality checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace        # Remove trailing whitespace
+      - id: end-of-file-fixer          # Ensure files end with newline
+      - id: check-yaml                 # Validate YAML syntax
+      - id: check-toml                 # Validate TOML syntax
+      - id: check-json                 # Validate JSON syntax
+      - id: check-added-large-files    # Prevent large files (>500KB)
+        args: [--maxkb=500]
+      - id: check-merge-conflict       # Check for merge conflict markers
+      - id: debug-statements           # Check for debugger imports/breakpoints
+      - id: mixed-line-ending          # Ensure consistent line endings
+        args: [--fix=lf]
+
+  # Pytest - Run tests before commit (optional, can be slow)
+  # Uncomment if you want tests to run on every commit
+  # - repo: local
+  #   hooks:
+  #     - id: pytest
+  #       name: pytest
+  #       entry: uv run pytest
+  #       language: system
+  #       pass_filenames: false
+  #       always_run: true
+  #       stages: [commit]
+
+# Configuration
+default_language_version:
+  python: python3.13
+
+# CI configuration
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit.com hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false

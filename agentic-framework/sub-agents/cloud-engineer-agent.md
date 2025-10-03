@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "cloud_engineer"
-specialization: 
+specialization:
   - "cloud_architecture"
   - "infrastructure_as_code"
   - "scalability_design"

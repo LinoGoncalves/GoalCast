@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "networks_engineer"
-specialization: 
+specialization:
   - "network_design"
   - "connectivity_solutions"
   - "network_performance"

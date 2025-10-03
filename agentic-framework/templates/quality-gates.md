@@ -42,14 +42,14 @@ automated_checks:
     tool: "custom_gherkin_parser"
     criteria: "All acceptance criteria use valid Gherkin syntax"
     pass_threshold: "100%"
-  
+
   story_completeness:
     tool: "story_analyzer"
     criteria: "All user stories have title, description, and acceptance criteria"
     pass_threshold: "100%"
-  
+
   requirements_traceability:
-    tool: "traceability_checker" 
+    tool: "traceability_checker"
     criteria: "All user stories trace back to business objectives"
     pass_threshold: "100%"
 ```
@@ -84,7 +84,7 @@ failure_escalation:
     action: "Return to Business Analyst AI for revision"
     max_iterations: 3
     escalation_time: "2 business days"
-  
+
   major_issues:
     action: "Escalate to Product Owner and Project Manager"
     required_meeting: "Requirements review session"
@@ -93,7 +93,7 @@ failure_escalation:
 
 ### Gate 2: Architecture Approval
 
-**Phase**: Requirements → Architecture Design Complete  
+**Phase**: Requirements → Architecture Design Complete
 **Stakeholders**: Solutions Architect (AI) → Human Architect → Architecture Review Board
 
 #### Entry Criteria
@@ -109,17 +109,17 @@ automated_checks:
     tool: "doc_completeness_checker"
     criteria: "C4 diagrams, API specs, and data models present"
     pass_threshold: "100%"
-  
+
   security_architecture:
     tool: "security_architecture_scanner"
     criteria: "Security controls documented for all data flows"
     pass_threshold: "100%"
-  
+
   performance_modeling:
     tool: "performance_calculator"
     criteria: "Load estimates and capacity planning complete"
     pass_threshold: "All scenarios covered"
-  
+
   technology_compliance:
     tool: "tech_stack_validator"
     criteria: "All technologies in approved libraries list"
@@ -168,30 +168,30 @@ automated_checks:
     criteria: "Zero linting errors"
     pass_threshold: "100%"
     config_file: "pyproject.toml"
-  
+
   type_safety:
     tool: "mypy"
     criteria: "No type errors"
     pass_threshold: "100%"
     config_file: "pyproject.toml"
-  
+
   security_scan:
     tool: "bandit"
     criteria: "No high or medium severity issues"
     pass_threshold: "100%"
     config_file: "pyproject.toml"
-  
+
   test_coverage:
     tool: "pytest-cov"
     criteria: "Minimum test coverage met"
     pass_threshold: "80%"
     critical_path_threshold: "95%"
-  
+
   dependency_check:
     tool: "safety"
     criteria: "No known vulnerabilities in dependencies"
     pass_threshold: "100%"
-  
+
   documentation:
     tool: "doc_coverage"
     criteria: "All public APIs documented"
@@ -240,19 +240,19 @@ automated_checks:
     criteria: "All unit tests pass"
     pass_threshold: "100%"
     timeout: "5 minutes"
-  
+
   integration_tests:
     tool: "pytest"
     criteria: "All integration tests pass"
     pass_threshold: "100%"
     timeout: "15 minutes"
-  
+
   api_tests:
     tool: "postman/newman"
     criteria: "All API endpoint tests pass"
     pass_threshold: "100%"
     include_negative_tests: true
-  
+
   performance_tests:
     tool: "locust"
     criteria: "Response times within SLA"
@@ -260,7 +260,7 @@ automated_checks:
       - "95th percentile < 500ms"
       - "Error rate < 0.1%"
       - "Throughput > 100 RPS"
-  
+
   security_tests:
     tool: "owasp_zap"
     criteria: "No high severity vulnerabilities"
@@ -308,22 +308,22 @@ automated_checks:
     tool: "terraform_validate"
     criteria: "Infrastructure code is valid"
     pass_threshold: "100%"
-  
+
   security_configuration:
     tool: "checkov"
     criteria: "Infrastructure security best practices"
     pass_threshold: "No high severity issues"
-  
+
   deployment_pipeline:
     tool: "pipeline_validator"
     criteria: "CI/CD pipeline executes successfully"
     environments: ["staging", "pre-production"]
-  
+
   monitoring_setup:
     tool: "monitoring_validator"
     criteria: "All required monitoring in place"
     components: ["logs", "metrics", "alerts", "dashboards"]
-  
+
   backup_verification:
     tool: "backup_tester"
     criteria: "Backup and restore procedures tested"
@@ -370,17 +370,17 @@ automated_checks:
       - "uniqueness constraints met"
       - "value ranges within bounds"
       - "schema consistency verified"
-  
+
   data_lineage:
     tool: "lineage_tracker"
     criteria: "Data lineage documented"
     pass_threshold: "100% of sources traced"
-  
+
   pipeline_tests:
     tool: "pytest"
     criteria: "Data pipeline tests pass"
     coverage_threshold: "80%"
-  
+
   performance_validation:
     tool: "pipeline_profiler"
     criteria: "Processing time within limits"
@@ -425,19 +425,19 @@ automated_checks:
       - "precision > 80%"
       - "recall > 80%"
       - "f1_score > 82%"
-  
+
   model_bias_check:
     tool: "fairness_validator"
     criteria: "Model bias within acceptable limits"
     protected_attributes: ["age", "gender", "ethnicity"]
     max_bias_difference: "5%"
-  
+
   model_stability:
     tool: "stability_tester"
     criteria: "Model performance stable across time periods"
     time_windows: ["weekly", "monthly"]
     stability_threshold: "< 2% variance"
-  
+
   feature_importance:
     tool: "feature_analyzer"
     criteria: "Feature importance makes business sense"
@@ -478,17 +478,17 @@ automated_checks:
     tool: "model_server_tester"
     criteria: "Model serving API functional"
     tests: ["prediction_accuracy", "response_time", "error_handling"]
-  
+
   infrastructure_validation:
     tool: "k8s_validator"
     criteria: "Kubernetes deployment successful"
     components: ["model_server", "monitoring", "logging"]
-  
+
   data_pipeline_integration:
     tool: "pipeline_tester"
     criteria: "End-to-end pipeline functional"
     test_data: "Production-like sample"
-  
+
   monitoring_validation:
     tool: "monitoring_tester"
     criteria: "All monitoring components active"
@@ -525,17 +525,17 @@ security_checks:
     tool: "trivy"
     criteria: "No critical or high vulnerabilities"
     scan_targets: ["code", "dependencies", "container_images"]
-  
+
   secrets_scan:
     tool: "truffleHog"
     criteria: "No hardcoded secrets detected"
     scope: ["source_code", "configuration_files"]
-  
+
   compliance_check:
     tool: "compliance_scanner"
     criteria: "Regulatory requirements met"
     standards: ["SOC2", "GDPR", "fintech_regulations"]
-  
+
   access_control_validation:
     tool: "access_analyzer"
     criteria: "Least privilege access implemented"
@@ -561,15 +561,15 @@ performance_tests:
     tool: "locust"
     criteria: "System handles expected load"
     scenarios: ["normal_load", "peak_load", "stress_test"]
-  
+
   response_time:
     criteria: "95th percentile response time < 500ms"
     measurement_period: "10 minutes"
-  
+
   throughput:
     criteria: "System processes > 1000 requests/second"
     sustained_period: "30 minutes"
-  
+
   resource_utilization:
     criteria: "CPU and memory usage < 80%"
     measurement_period: "Peak load test"
@@ -582,7 +582,7 @@ performance_tests:
 ```python
 class QualityGateExecutor:
     """Executes quality gates with automated and manual checks."""
-    
+
     def execute_gate(self, gate_config: dict, project_context: dict) -> dict:
         """Execute a quality gate."""
         results = {
@@ -594,42 +594,42 @@ class QualityGateExecutor:
             "blockers": [],
             "recommendations": []
         }
-        
+
         # Execute automated checks
         for check_name, check_config in gate_config["automated_checks"].items():
             check_result = self._run_automated_check(check_name, check_config, project_context)
             results["automated_checks"][check_name] = check_result
-            
+
             if not check_result["passed"]:
                 results["blockers"].append(f"Automated check failed: {check_name}")
-        
+
         # Initiate manual reviews
         for reviewer_role, review_criteria in gate_config["manual_reviews"].items():
             review_request = self._create_review_request(reviewer_role, review_criteria, project_context)
             results["manual_reviews"][reviewer_role] = review_request
-        
+
         # Determine overall result
         all_automated_passed = all(check["passed"] for check in results["automated_checks"].values())
-        
+
         if all_automated_passed and not results["blockers"]:
             results["status"] = "automated_checks_passed"
             results["overall_result"] = "pending_manual_review"
         else:
             results["status"] = "failed"
             results["overall_result"] = "blocked"
-        
+
         return results
-    
+
     def _run_automated_check(self, check_name: str, check_config: dict, context: dict) -> dict:
         """Run a single automated check."""
         try:
             # This would integrate with actual tools (ruff, pytest, etc.)
             tool = check_config["tool"]
-            criteria = check_config["criteria"] 
-            
+            criteria = check_config["criteria"]
+
             # Simulate tool execution
             result = self._execute_tool(tool, context)
-            
+
             return {
                 "check_name": check_name,
                 "tool": tool,
@@ -639,7 +639,7 @@ class QualityGateExecutor:
                 "details": result.get("details", ""),
                 "timestamp": datetime.utcnow().isoformat()
             }
-            
+
         except Exception as e:
             return {
                 "check_name": check_name,
@@ -654,7 +654,7 @@ class QualityGateExecutor:
 ```python
 class QualityGateDashboard:
     """Dashboard for monitoring quality gate status."""
-    
+
     def get_gate_status(self, project_id: str) -> dict:
         """Get current quality gate status for a project."""
         return {
@@ -673,7 +673,7 @@ class QualityGateDashboard:
             ],
             "next_reviews_due": [
                 {
-                    "gate": "Testing Validation", 
+                    "gate": "Testing Validation",
                     "reviewer": "qa_lead@company.com",
                     "due_date": "2025-09-28"
                 }

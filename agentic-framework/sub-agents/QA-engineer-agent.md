@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "qa_engineer"
-specialization: 
+specialization:
   - "test_planning"
   - "quality_assurance"
   - "bug_tracking"

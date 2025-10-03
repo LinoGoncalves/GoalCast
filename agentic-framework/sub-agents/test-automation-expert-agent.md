@@ -1,7 +1,7 @@
 ---
 agent_type: "sub_agent"
 role: "test_automation_expert"
-specialization: 
+specialization:
   - "automated_testing"
   - "test_frameworks"
   - "test_maintenance"

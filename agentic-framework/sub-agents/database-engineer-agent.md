@@ -2,7 +2,7 @@
 ---
 agent_type: "sub_agent"
 role: "database_engineer"
-specialization: 
+specialization:
   - "database_design"
   - "data_modeling"
   - "performance_optimization"

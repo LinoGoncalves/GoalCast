@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         ## Bug Report Template
-        
+
   - type: textarea
     id: description
     attributes:
@@ -16,7 +16,7 @@ body:
       placeholder: "Model produces NaN probabilities when..."
     validations:
       required: true
-      
+
   - type: textarea
     id: reproduction
     attributes:
@@ -28,7 +28,7 @@ body:
         3. Observe NaN values in output
     validations:
       required: true
-      
+
   - type: textarea
     id: expected
     attributes:
@@ -37,7 +37,7 @@ body:
       placeholder: "Model should produce probabilities between 0 and 1"
     validations:
       required: true
-      
+
   - type: textarea
     id: actual
     attributes:
@@ -46,7 +46,7 @@ body:
       placeholder: "Model outputs NaN for all probabilities"
     validations:
       required: true
-      
+
   - type: textarea
     id: environment
     attributes:
@@ -59,7 +59,7 @@ body:
         - Container: Docker 24.0.6
     validations:
       required: true
-      
+
   - type: textarea
     id: logs
     attributes:
@@ -72,7 +72,7 @@ body:
         ```
     validations:
       required: false
-      
+
   - type: dropdown
     id: severity
     attributes:

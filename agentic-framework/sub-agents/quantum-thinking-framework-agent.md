@@ -213,7 +213,7 @@ Surface Layer (Explicit)
 - [ ] Explicit stakeholder needs
 - [ ] Documented success criteria
 
-Hidden Layer (Implicit)  
+Hidden Layer (Implicit)
 - [ ] Unstated assumptions and expectations
 - [ ] Organizational cultural factors
 - [ ] Political and resource constraints

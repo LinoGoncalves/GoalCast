@@ -1,9 +1,9 @@
 # 🤖 AI Tool Integration Guide
 ## Universal Agent Personas for Multiple AI Development Tools
 
-**Project**: Telco Call Centre Agent  
-**Purpose**: Multi-tool AI integration without vendor lock-in  
-**Updated**: September 29, 2025  
+**Project**: Telco Call Centre Agent
+**Purpose**: Multi-tool AI integration without vendor lock-in
+**Updated**: September 29, 2025
 **Compatibility**: Tabnine, GitHub Copilot, Cursor, Codeium, JetBrains AI, and future tools
 
 ---
@@ -29,7 +29,7 @@ This project implements **tool-agnostic AI agent personas** designed to work sea
 - **Integration Method**: Project context files and documentation
 - **Benefits**: Enhanced code completion using agent persona context
 - **Configuration**: Uses `telco-call-centre/` folder structure for project understanding
-- **Best Practices**: 
+- **Best Practices**:
   - Keep agent files in project structure for maximum context
   - Use detailed specialization metadata for better suggestions
   - Leverage development standards for consistent code patterns
@@ -163,7 +163,7 @@ Following development-standards/coding_styleguide.md, refactor this code to matc
 #### Context Enhancement
 All AI tools can benefit from:
 1. **Rich Metadata**: Tools extract relevant context from YAML frontmatter
-2. **Specialization Arrays**: Help tools understand agent expertise areas  
+2. **Specialization Arrays**: Help tools understand agent expertise areas
 3. **Interaction Patterns**: Guide tools on optimal interaction methods
 4. **Development Standards**: Ensure consistency across all AI suggestions
 
@@ -171,7 +171,7 @@ All AI tools can benefit from:
 ```markdown
 # Universal reference patterns work across tools:
 ./telco-call-centre/master-agent.md              # Project orchestration
-./telco-call-centre/sub-agents/[role]-agent.md   # Specialized expertise  
+./telco-call-centre/sub-agents/[role]-agent.md   # Specialized expertise
 ./telco-call-centre/development-standards/       # Project standards
 ```
 
@@ -185,7 +185,7 @@ All AI tools can benefit from:
 - ✅ **Pattern Recognition**: Development standards improve code consistency
 - ✅ **Domain Knowledge**: Agent specializations enhance relevant suggestions
 
-### **GitHub Copilot Enhancements**  
+### **GitHub Copilot Enhancements**
 - ✅ **Interactive Planning**: Agent personas guide project discussions
 - ✅ **Role-Based Assistance**: Specialized agents for different development phases
 - ✅ **Standards Compliance**: Development standards ensure consistent output
@@ -208,7 +208,7 @@ This project implements a layered approach for maximum compatibility and tool-sp
 ```
 📁 telco-call-centre/          # Universal (ALL TOOLS)
 ├── sub-agents/                # Multi-tool agent personas
-├── development-standards/     # Tool-agnostic standards  
+├── development-standards/     # Tool-agnostic standards
 └── ai-tool-integration.md     # This file
 
 📁 .github/                    # GitHub Copilot Enhanced
@@ -223,7 +223,7 @@ This project implements a layered approach for maximum compatibility and tool-sp
 ### **Architecture Philosophy**
 
 - **📚 Source of Truth**: `telco-call-centre/` remains authoritative for all tools
-- **⚡ Tool Enhancement**: `.github/` provides GitHub Copilot optimizations  
+- **⚡ Tool Enhancement**: `.github/` provides GitHub Copilot optimizations
 - **🔄 Vendor Independence**: Other tools use universal structure unaffected
 - **🔗 Seamless Integration**: GitHub Copilot users get enhanced workflows while maintaining compatibility
 
@@ -236,7 +236,7 @@ This project implements a layered approach for maximum compatibility and tool-sp
 
 **Enhanced Chat Modes** (GitHub Copilot specific):
 - Load `.github/chatmodes/agent-orchestrator.md` for master agent coordination
-- Load `.github/chatmodes/development-expert.md` for coding and architecture  
+- Load `.github/chatmodes/development-expert.md` for coding and architecture
 - Load `.github/chatmodes/quality-assurance-expert.md` for testing and QA
 
 ---
@@ -267,7 +267,7 @@ This project implements a layered approach for maximum compatibility and tool-sp
 - Update specialization metadata when adding new project capabilities
 - Reference development standards in code comments for enhanced context
 
-#### **GitHub Copilot Optimization**  
+#### **GitHub Copilot Optimization**
 - Use specific agent references in chat for targeted assistance
 - Combine multiple agent perspectives for complex problems
 - Reference interaction patterns for structured problem-solving
@@ -305,7 +305,7 @@ This project implements a layered approach for maximum compatibility and tool-sp
 
 1. **Verify Tool Access**: Ensure your AI tools can access the `telco-call-centre/` folder
 2. **Review Agent Roster**: Browse `sub-agents/` folder to understand available expertise
-3. **Check Standards**: Review `development-standards/` for project-specific guidelines  
+3. **Check Standards**: Review `development-standards/` for project-specific guidelines
 4. **Start Using**: Reference agent personas in your AI tool interactions
 
 ### **Tool-Specific Quickstart**

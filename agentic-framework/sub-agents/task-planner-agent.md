@@ -7,7 +7,7 @@ specialization:
   - "dependency-mapping"
 tools_compatible:
   - "tabnine"
-  - "github-copilot" 
+  - "github-copilot"
   - "cursor"
   - "codeium"
   - "jetbrains-ai"

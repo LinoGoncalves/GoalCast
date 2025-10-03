@@ -38,4 +38,3 @@ This document defines best-practice data pipeline patterns for AI/ML, LLM, and v
 - See `mlops_pipeline_standards.md`, `database_schema_standards.md`, and `network_security_policy.md` for more details.
 
 Last updated: 2025-10-01
-
